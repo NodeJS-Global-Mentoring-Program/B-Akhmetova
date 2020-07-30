@@ -1,7 +1,25 @@
-const fs = require('fs');
-const csv = require('csvtojson');
-const readline = require('readline');
-const { pipeline } = require('stream');
+import fs from 'fs';
+import csv from 'csvtojson';
+import readline from 'readline';
+import { pipeline } from 'stream';
+
+// task 1
+
+const rl = readline.createInterface({ input: process.stdin });
+
+const reverseString = (input) => {
+    let output = '';
+    for (let i = input.length - 1; i >= 0; i--) {
+        output += input[i];
+    }
+    return output;
+}
+
+rl.on('line', (input) => {
+    console.log(reverseString(input));
+});
+
+// task 2
 
 const CSV_PATH = './csv/books.csv';
 const csvOptions = {
