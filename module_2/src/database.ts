@@ -1,9 +1,8 @@
-import { v4 as uuid } from 'uuid';
 import { IUser } from './interfaces';
 
 export const users: Array<IUser> = [
     {
-        id: uuid(),
+        id: '990a2a56-3bce-4ba0-91e0-32285163ec55',
         login: 'user1',
         password: '12345',
         age: 78,

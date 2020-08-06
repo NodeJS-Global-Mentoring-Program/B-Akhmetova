@@ -1,40 +1,83 @@
 import express from 'express';
+import { v4 as uuid } from 'uuid';
 
 import { users } from './database';
 import { IUser } from './interfaces';
 
 const router = express.Router();
 
+//handling errors
+//mapping
+
+router.get('/', (req, res) => {
+    const { query } = req;
+    const { limit, loginSubstring } = query;
+      //TO DO
+});
+
 router.get('/:id', (req, res) => {
-    console.log(req.params)
-    res.send(users);
+    const { params } = req;
+    const { id } = params;
+    const user = users.find((user) => user.id === id)
+
+    if (user) {
+        res.send(user);
+    }
+    else {
+        res.send(false)
+    }
 });
 
 router.put('/:id', (req, res) => {
-    const { id, body } = req.params;
-    const userIndex = users.findIndex((user) => user.id === id);
+    const { body, params } = req;
+    const { id } = params;
+    const userIndex = users.findIndex((user) => user.id === id)
 
-    // const newUser: IUser = {
-    //     id: body.id as string,
-    //     login: body.login,
-    //     password: body.password,
-    //     age: body.age,
-    //     isDeleted: body.isDeleted
-    // }
-    const newUser = body as unknown as IUser;
+    const newUser: IUser = {
+        id: body.id,
+        login: body.login,
+        password: body.password,
+        age: body.age,
+        isDeleted: body.isDeleted
+    }
 
     users.splice(userIndex, 1, newUser)
-
-
-    res.send('put method');
+    res.send(users);
 });
 
 router.delete('/:id', (req, res) => {
-    res.send('delete method');
+    const { params } = req;
+    const { id } = params;
+    const user = users.find((user) => user.id === id);
+    const userIndex = users.findIndex((user) => user.id === id);
+
+    if (user) {
+        const deletedUser: IUser = {
+            id: user.id,
+            login: user.login,
+            password: user.password,
+            age: user.age,
+            isDeleted: true
+        }
+
+        users.splice(userIndex, 1, deletedUser)
+        res.send(users);
+    }
 })
 
 router.post('/', (req, res) => {
-    res.send('post method');
+    const { body } = req;
+
+    const newUser: IUser = {
+        id: uuid(),
+        login: body.login,
+        password: body.password,
+        age: body.age,
+        isDeleted: body.isDeleted
+    }
+
+    users.push(newUser)
+    res.send(users);
 })
 
 
