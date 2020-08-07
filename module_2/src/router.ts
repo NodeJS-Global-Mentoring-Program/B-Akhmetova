@@ -3,16 +3,19 @@ import { v4 as uuid } from 'uuid';
 
 import { users } from './database';
 import { IUser } from './interfaces';
+import { getAutoSuggestUsers, getNumber, getString } from './helpers';
 
 const router = express.Router();
 
 //handling errors
 //mapping
 
-router.get('/', (req, res) => {
+router.get('/auto-suggest', (req, res) => {
     const { query } = req;
-    const { limit, loginSubstring } = query;
-      //TO DO
+    const limit = getNumber(query.limit);
+    const loginSubstring = getString(query.loginSubstring);
+
+    res.send(getAutoSuggestUsers(loginSubstring, limit, users))
 });
 
 router.get('/:id', (req, res) => {
