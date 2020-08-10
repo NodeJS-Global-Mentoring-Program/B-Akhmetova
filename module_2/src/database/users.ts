@@ -1,4 +1,4 @@
-import { IUser } from './interfaces';
+import { IUser } from '../interfaces/user';
 
 export const users: Array<IUser> = [
     {
@@ -49,5 +49,5 @@ export const users: Array<IUser> = [
         password: '12345',
         age: 22,
         isDeleted: false
-    },
+    }
 ];
