@@ -1,10 +1,8 @@
 import express from 'express';
-import { v4 as uuid } from 'uuid';
 
 import { users } from '../database/users';
-import { IUser } from '../interfaces/user';
-import { getAutoSuggestUsers, getNumber, getString } from '../helpers/helpers';
-
+import { getAutoSuggestUsers, updateUser, createUser } from '../helpers/helpers';
+import { getNumber, getString } from '../utils/parsing';
 import validator from '../validation/validator';
 
 const routerUser = express.Router();
@@ -12,16 +10,11 @@ const routerUser = express.Router();
 routerUser.get('/auto-suggest', (req, res) => {
     const limit = getNumber(req.query.limit);
     const loginSubstring = getString(req.query.loginSubstring);
-
     res.send(getAutoSuggestUsers(loginSubstring, limit, users));
 });
 
 routerUser.get('/', (req, res) => {
-    if (!!users.length) {
-        res.send(users);
-    } else {
-        res.status(404).end("Any user wasn't found");
-    }
+    res.send(users);
 });
 
 
@@ -30,25 +23,16 @@ routerUser.get('/:id', (req, res) => {
     if (user) {
         res.send(user);
     } else {
-        res.status(404).end("Any user wasn't found");
+        res.status(404).end(`Any user wasn't found with id ${req.params.id}`);
     }
 });
 
-routerUser.put('/:id', (req, res) => {
+routerUser.put('/:id', validator, (req, res) => {
     const userIndex = users.findIndex((user) => user.id === req.params.id);
-    if (userIndex) {
-        const { id, login, password, age, isDeleted } = users[userIndex];
-        const newUser: IUser = {
-            id: req.body.id || id,
-            login: req.body.login || login,
-            password: req.body.password || password,
-            age: req.body.age || age,
-            isDeleted: req.body.isDeleted || isDeleted
-        };
-
-        users.splice(userIndex, 1, newUser);
-
-        res.send(users);
+    if (userIndex !== -1) {
+        const updatedUser = updateUser(req.body, users[userIndex]);
+        users.splice(userIndex, 1, updatedUser);
+        res.send(`User with id ${req.params.id} was  succesfully updated`);
     } else {
         res.status(404).end("Couldn't update user, because any user wasn't found with this id");
     }
@@ -68,18 +52,14 @@ routerUser.delete('/:id', (req, res) => {
 });
 
 routerUser.post('/', validator, (req, res) => {
-    const { id, login, password, age, isDeleted } = req.body;
+    const newUser = createUser(req.body);
 
-    const newUser: IUser = {
-        id: id || uuid(),
-        login,
-        password,
-        age,
-        isDeleted
-    };
-
-    users.push(newUser);
-    res.send(users);
+    if (newUser) {
+        users.push(newUser);
+        res.send('New user was  succesfully added');
+    } else {
+        res.status(500).end('Operation is failed');
+    }
 });
 
 

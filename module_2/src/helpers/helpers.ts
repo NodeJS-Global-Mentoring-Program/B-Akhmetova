@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid';
+
 import { IUser } from '../interfaces/user';
 
 export const getAutoSuggestUsers = (loginSubstring: string, limitInput: number, users: Array<IUser>):Array<IUser> => {
@@ -33,9 +35,22 @@ const compareLogins = (firstItem: IUser, secondItem: IUser) => {
     return 0;
 };
 
-export const getNumber = (input: any): number => {
-    const number = parseInt(input, 10);
-    return number || 0;
+export const updateUser = (fields: IUser, user:IUser): IUser => {
+    return {
+        id: fields.id || user.id,
+        login : fields.login || user.login,
+        password: fields.password || user.password,
+        age: fields.age || user.age,
+        isDeleted: fields.isDeleted || user.isDeleted
+    };
 };
 
-export const getString = (input: any): string => input.toString();
+export const createUser = (fields: IUser): IUser => {
+    return {
+        id: fields.id || uuid(),
+        login : fields.login,
+        password: fields.password,
+        age: fields.age,
+        isDeleted: fields.isDeleted
+    };
+};
