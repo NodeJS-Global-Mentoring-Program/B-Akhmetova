@@ -24,7 +24,7 @@ export const User = sequelize.define<UserInstance>('User', {
     }
 }, {
     modelName: 'User',
-    tableName:'users',
+    tableName:'Users',
     timestamps: false
 });
 
@@ -32,3 +32,4 @@ User.beforeCreate(async (user) => {
     const hashedPassword = await bcrypt.hash(user.password, 10);
     user.password = hashedPassword;
 });
+

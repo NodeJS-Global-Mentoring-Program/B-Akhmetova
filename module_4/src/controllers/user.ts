@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { middlewareValidatorCreate, middlewareValidatorUpdate }  from '../validation/middlewares';
+import { middlewareValidatorCreate, middlewareValidatorUpdate }  from '../validation/user/middlewares';
 import UserService from '../services/user';
 import UserDAL from '../data-access/UserDAL';
 import { getNumber, getString } from '../utils/parsing';

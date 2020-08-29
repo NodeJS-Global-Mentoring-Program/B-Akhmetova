@@ -15,15 +15,24 @@ export const sequelize = new Sequelize({
 });
 
 export const postgresLoader = async ():Promise<void> => {
-    let sql = '';
+    let sqlInitUsers = '';
+    let sqlInitGroups = '';
 
     fs.readFile(path.resolve(__dirname, '../data-access/initUsers.sql'), (err, data) => {
         if (err) {
             throw Error(err.message);
         }
-        sql = data.toString();
+        sqlInitUsers = data.toString();
+    });
+
+    fs.readFile(path.resolve(__dirname, '../data-access/initGroups.sql'), (err, data) => {
+        if (err) {
+            throw Error(err.message);
+        }
+        sqlInitGroups = data.toString();
     });
 
     await sequelize.authenticate();
-    await sequelize.query(sql);
+    await sequelize.query(sqlInitUsers);
+    await sequelize.query(sqlInitGroups);
 };
