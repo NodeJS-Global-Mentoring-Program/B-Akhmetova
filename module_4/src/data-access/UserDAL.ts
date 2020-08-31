@@ -1,8 +1,11 @@
 import express from 'express';
 
 import { User } from '../models/user';
+import { UserGroup } from '../models/userGroup';
 import { IUser } from '../interfaces/user';
+import { IUserGroup } from '../interfaces/userGroup';
 import { handleQuery } from '../utils/error';
+
 
 export default class UserDAL {
     GetAllUsers(next: express.NextFunction): Promise<IUser[]|  void>  {
@@ -23,5 +26,9 @@ export default class UserDAL {
 
     DeleteUser(id: string, next: express.NextFunction): Promise<number | void> {
         return handleQuery(User.destroy({ where: { id } }), next);
+    }
+
+    AddUsersToGroup(UserId: string, GroupId: string, transaction: any, next: express.NextFunction): Promise<IUserGroup |void> {
+        return handleQuery(UserGroup.create({ UserId, GroupId }, transaction), next);
     }
 }

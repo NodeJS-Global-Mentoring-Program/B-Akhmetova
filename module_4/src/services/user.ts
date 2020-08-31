@@ -1,7 +1,10 @@
 import express from 'express';
 
 import UserDAL from '../data-access/UserDAL';
+
 import { IUser } from '../interfaces/user';
+import { IUserGroup } from '../interfaces/userGroup';
+
 import { getAutoSuggest, createNewUser } from '../helpers';
 import { handleQuery } from '../utils/error';
 
@@ -35,5 +38,9 @@ export default class UserService {
 
     DeleteUser(id: string, next: express.NextFunction):  Promise<number | void> {
         return handleQuery(this.userDAL.DeleteUser(id, next), next);
+    }
+
+    AddUsersToGroup(userId: string, groupId: string, transaction: any, next: express.NextFunction): Promise<IUserGroup |void> {
+        return handleQuery(this.userDAL.AddUsersToGroup(userId, groupId, transaction, next), next);
     }
 }

@@ -36,3 +36,7 @@ export const postgresLoader = async ():Promise<void> => {
     await sequelize.query(sqlInitUsers);
     await sequelize.query(sqlInitGroups);
 };
+
+export const getTransaction = async (): Promise<any> => {
+    return await sequelize.transaction();
+};

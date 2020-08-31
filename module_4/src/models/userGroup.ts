@@ -1,33 +1,13 @@
-import { DataTypes } from 'sequelize';
-
-import { UserGroupInstance } from '../interfaces/userGroup';
 import { sequelize } from '../loaders/postgress';
 
 import { User } from './user';
 import { Group } from './group';
 
-export const UserGroup = sequelize.define<UserGroupInstance>('UserGroup', {
-    userId: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        references: {
-            model: 'Users',
-            key: 'id'
-        }
-    },
-    groupId: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        references: {
-            model: 'Groups',
-            key: 'id'
-        }
-    }
-}, {
+export const UserGroup = sequelize.define('UserGroup', {}, {
     modelName: 'UserGroup',
-    tableName:'UserGroup',
+    tableName:'userGroup',
     timestamps: false
 });
 
-UserGroup.belongsTo(User, { as: 'User', foreignKey: 'userId' });
-UserGroup.belongsTo(Group, { as: 'Group', foreignKey: 'groupId' });
+User.belongsToMany(Group, { through:'UserGroup' });
+Group.belongsToMany(User, { through:'UserGroup' });

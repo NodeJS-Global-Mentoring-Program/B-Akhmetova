@@ -19,7 +19,7 @@ export const Group = sequelize.define<GroupInstance>('Group', {
     }
 }, {
     modelName: 'Group',
-    tableName:'Groups',
+    tableName:'groups',
     timestamps: false
 });
 
