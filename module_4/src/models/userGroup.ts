@@ -5,7 +5,7 @@ import { Group } from './group';
 
 export const UserGroup = sequelize.define('UserGroup', {}, {
     modelName: 'UserGroup',
-    tableName:'userGroup',
+    tableName:'UserGroup',
     timestamps: false
 });
 

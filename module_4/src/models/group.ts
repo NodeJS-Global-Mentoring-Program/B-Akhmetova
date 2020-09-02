@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 
 import { GroupInstance } from '../interfaces/group';
+
 import { sequelize } from '../loaders/postgress';
 
 export const Group = sequelize.define<GroupInstance>('Group', {
@@ -19,7 +20,7 @@ export const Group = sequelize.define<GroupInstance>('Group', {
     }
 }, {
     modelName: 'Group',
-    tableName:'groups',
+    tableName:'Groups',
     timestamps: false
 });
 

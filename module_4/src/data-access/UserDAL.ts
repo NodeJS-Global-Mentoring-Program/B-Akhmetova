@@ -28,7 +28,7 @@ export default class UserDAL {
         return handleQuery(User.destroy({ where: { id } }), next);
     }
 
-    AddUsersToGroup(UserId: string, GroupId: string, transaction: any, next: express.NextFunction): Promise<IUserGroup |void> {
-        return handleQuery(UserGroup.create({ UserId, GroupId }, transaction), next);
+    AddUsersToGroup(userId: string, groupId: string, transaction: any, next: express.NextFunction): Promise<IUserGroup |void> {
+        return handleQuery(UserGroup.create({ userId, groupId }, transaction), next);
     }
 }

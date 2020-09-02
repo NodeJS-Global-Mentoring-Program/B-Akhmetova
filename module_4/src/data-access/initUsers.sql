@@ -1,14 +1,14 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE TABLE IF NOT EXISTS Users (
-    id uuid DEFAULT uuid_generate_v4 (),
-    login VARCHAR (30) NOT NULL CONSTRAINT uniq_login UNIQUE,
-    password CHAR(100) NOT NULL,
-    age int NOT NULL CHECK (
+CREATE TABLE IF NOT EXISTS "Users" (
+    "id" uuid DEFAULT uuid_generate_v4 (),
+    "login" VARCHAR (30) NOT NULL CONSTRAINT uniq_login UNIQUE,
+    "password" CHAR(100) NOT NULL,
+    "age" int NOT NULL CHECK (
         age >= 4
         AND age <= 130
     )
 );
-INSERT INTO Users (login, password, age)
+INSERT INTO "Users" ("login", "password", "age")
 VALUES ('user1', 'passw111', 22),
     ('user2', 'passw222', 12),
     ('user3', 'passw333', 34),
