@@ -24,7 +24,7 @@ export const User = sequelize.define<UserInstance>('User', {
     }
 }, {
     modelName: 'User',
-    tableName:'users',
+    tableName:'Users',
     timestamps: false
 });
 

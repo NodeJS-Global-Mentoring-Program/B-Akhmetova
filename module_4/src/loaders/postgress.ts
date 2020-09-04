@@ -17,6 +17,7 @@ export const sequelize = new Sequelize({
 export const postgresLoader = async ():Promise<void> => {
     let sqlInitUsers = '';
     let sqlInitGroups = '';
+    let sqlInitUserGroups = '';
 
     fs.readFile(path.resolve(__dirname, '../data-access/initUsers.sql'), (err, data) => {
         if (err) {
@@ -32,9 +33,17 @@ export const postgresLoader = async ():Promise<void> => {
         sqlInitGroups = data.toString();
     });
 
+    fs.readFile(path.resolve(__dirname, '../data-access/initUserGroups.sql'), (err, data) => {
+        if (err) {
+            throw Error(err.message);
+        }
+        sqlInitUserGroups = data.toString();
+    });
+
     await sequelize.authenticate();
     await sequelize.query(sqlInitUsers);
     await sequelize.query(sqlInitGroups);
+    await sequelize.query(sqlInitUserGroups);
 };
 
 export const getTransaction = async (): Promise<any> => {
