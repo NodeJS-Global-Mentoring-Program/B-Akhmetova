@@ -7,53 +7,77 @@ import UserService from '../services/user';
 import UserDAL from '../data-access/UserDAL';
 
 import { getNumber, getString } from '../utils/parsing';
-import { handleQuery } from '../utils/error';
 
 const routerUser = express.Router();
 
 const userDAL = new UserDAL();
 const userService = new UserService(userDAL);
 
-routerUser.get('/auto-suggest', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerUser.get('/auto-suggest', async (req: express.Request, res: express.Response) => {
     const limit = getNumber(req.query.limit);
     const loginSubstring = getString(req.query.loginSubstring);
-    const result = await userService.GetAutoSuggestUsers(limit, loginSubstring, next);
-    res.send(result);
-});
 
-routerUser.get('/', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const usersDB = await userService.GetAllUsers(next);
-    res.send(usersDB);
-});
-
-
-routerUser.get('/:id', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const result = await handleQuery(userService.GetUserById(req.params.id, next), next);
-    res.send(result);
-});
-
-routerUser.put('/:id', middlewareValidatorUpdate, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const result = await handleQuery(userService.UpdateUser(req.body, req.params.id, next), next);
-    res.send(result);
-});
-
-routerUser.delete('/:id', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const deletedNum = await handleQuery(userService.DeleteUser(req.params.id, next), next);
-
-    if (deletedNum) {
-        res.send(`User with id ${req.params.id} successfully deleted`);
+    try {
+        const result = await userService.getAutoSuggestUsers(limit, loginSubstring);
+        res.send(result);
+    } catch (error) {
+        console.log('[error]', error);
     }
-    res.send(`User with id ${req.params.id} isn't exist or has already deleted`);
 });
 
-routerUser.post('/', middlewareValidatorCreate, async  (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const result = await handleQuery(userService.CreateUser(req.body, next), next);
-    res.send(result);
+routerUser.get('/', async (req: express.Request, res: express.Response) => {
+    try {
+        const result = await userService.getAllUsers();
+        res.send(result);
+    } catch (error) {
+        console.log('[error]', error);
+    }
 });
 
-routerUser.post('/addUsersToGroup', async  (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const result = await handleQuery(userService.AddUsersToGroup(req.body.UserId, req.body.GroupId, next), next);
-    res.send(result);
+
+routerUser.get('/:id', async (req: express.Request, res: express.Response) => {
+    try {
+        const result = await userService.getUserById(req.params.id);
+        res.send(result);
+    } catch (error) {
+        console.log('[error]', error);
+    }
+});
+
+routerUser.put('/:id', middlewareValidatorUpdate, async (req: express.Request, res: express.Response) => {
+    try {
+        const result = await userService.updateUser(req.body, req.params.id);
+        res.send(result);
+    } catch (error) {
+        console.log('[error]', error);
+    }
+});
+
+routerUser.delete('/:id', async (req: express.Request, res: express.Response) => {
+    try {
+        const result = await userService.deleteUser(req.params.id);
+        res.send(result);
+    } catch (error) {
+        console.log('[error]', error);
+    }
+});
+
+routerUser.post('/', middlewareValidatorCreate, async  (req: express.Request, res: express.Response) => {
+    try {
+        const result = await userService.createUser(req.body);
+        res.send(result);
+    } catch (error) {
+        console.log('[error]', error);
+    }
+});
+
+routerUser.post('/addUsersToGroup', async  (req: express.Request, res: express.Response) => {
+    try {
+        const result = await userService.addUsersToGroup(req.body.UserId, req.body.GroupId);
+        res.send(result);
+    } catch (error) {
+        console.log('[error]', error);
+    }
 });
 
 export default routerUser;

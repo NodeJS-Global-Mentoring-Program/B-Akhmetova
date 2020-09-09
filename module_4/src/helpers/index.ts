@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 
 import { IUser } from '../interfaces/user';
 
-export const getAutoSuggest = (loginSubstring: string, limitInput: number, users: IUser[]):IUser[] => {
+export const getAutoSuggest = (loginSubstring: string, limitInput: number, users: any):IUser[] => {
     const regex = RegExp(loginSubstring.toLowerCase());
     const countOfUsers = users.length;
     let resultUsers: Array<IUser> = [];

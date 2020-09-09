@@ -1,29 +1,24 @@
-import express from 'express';
-
 import { IGroup } from '../interfaces/group';
-
-import { handleQuery } from '../utils/error';
-
 import db from '../models';
 
 export default class GroupDAL {
-    GetAllGroups(next: express.NextFunction): Promise<IGroup[]|  void>  {
-        return handleQuery(db.Group.findAll(), next);
+    getAllGroups(): Promise<IGroup[]|  void>  {
+        return db.Group.findAll();
     }
 
-    GetGroupById(id: string, next: express.NextFunction): Promise<IGroup| null |void>  {
-        return handleQuery(db.Group.findByPk(id), next);
+    getGroupById(id: string): Promise<IGroup| null |void>  {
+        return db.Group.findByPk(id);
     }
 
-    CreateGroup(groupDTO: IGroup, next: express.NextFunction): Promise<IGroup |void> {
-        return handleQuery(db.Group.create(groupDTO), next);
+    createGroup(groupDTO: IGroup): Promise<IGroup |void> {
+        return db.Group.create(groupDTO);
     }
 
-    UpdateGroup(userData: IGroup, id: string, next: express.NextFunction): Promise<any> {
-        return handleQuery(db.Group.update(userData, { where: { id } }), next);
+    updateGroup(userData: IGroup, id: string): Promise<any> {
+        return db.Group.update(userData, { where: { id } });
     }
 
-    DeleteGroup(id: string, next: express.NextFunction): Promise<number | void> {
-        return handleQuery(db.Group.destroy({ where: { id } }), next);
+    deleteGroup(id: string): Promise<number | void> {
+        return db.Group.destroy({ where: { id } });
     }
 }

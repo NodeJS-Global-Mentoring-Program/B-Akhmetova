@@ -1,11 +1,8 @@
-import express from 'express';
-
 import UserDAL from '../data-access/UserDAL';
 
 import { IUser } from '../interfaces/user';
 
 import { getAutoSuggest, createNewUser } from '../helpers';
-import { handleQuery } from '../utils/error';
 
 export default class UserService {
     userDAL:UserDAL;
@@ -14,32 +11,32 @@ export default class UserService {
         this.userDAL = userDAL;
     }
 
-    GetAllUsers(next: express.NextFunction): Promise<IUser[] | void> {
-        return handleQuery(this.userDAL.GetAllUsers(next), next);
+    getAllUsers(): Promise<IUser[] | void> {
+        return this.userDAL.getAllUsers();
     }
 
-    GetUserById(id: string, next: express.NextFunction): Promise<IUser| null | void> {
-        return handleQuery(this.userDAL.GetUserById(id, next), next);
+    getUserById(id: string): Promise<IUser| null | void> {
+        return this.userDAL.getUserById(id);
     }
 
-    async GetAutoSuggestUsers(limit: number, loginSubstring:string, next: express.NextFunction):Promise<IUser[] |void>  {
-        const allUsers = handleQuery(this.userDAL.GetAllUsers(next) || [], next);
-        return getAutoSuggest(loginSubstring, limit, await allUsers);
+    async getAutoSuggestUsers(limit: number, loginSubstring:string):Promise<IUser[] |void>  {
+        const allUsers = await this.userDAL.getAllUsers();
+        return getAutoSuggest(loginSubstring, limit, allUsers);
     }
 
-    CreateUser(user: IUser, next: express.NextFunction): Promise<IUser |void> {
-        return handleQuery(this.userDAL.CreateUser(createNewUser(user), next), next);
+    createUser(user: IUser): Promise<IUser |void> {
+        return this.userDAL.createUser(createNewUser(user));
     }
 
-    UpdateUser(user: IUser, id: string, next: express.NextFunction): Promise<any> {
-        return handleQuery(this.userDAL.UpdateUser(user, id, next), next);
+    updateUser(user: IUser, id: string): Promise<any> {
+        return this.userDAL.updateUser(user, id);
     }
 
-    DeleteUser(id: string, next: express.NextFunction):  Promise<number | void> {
-        return handleQuery(this.userDAL.DeleteUser(id, next), next);
+    deleteUser(id: string):  Promise<number | void> {
+        return this.userDAL.deleteUser(id);
     }
 
-    AddUsersToGroup(userId: string, groupId: string, next: express.NextFunction): Promise<any |void> {
-        return handleQuery(this.userDAL.AddUsersToGroup(userId, groupId, next), next);
+    addUsersToGroup(userId: string, groupId: string): Promise<any |void> {
+        return this.userDAL.addUsersToGroup(userId, groupId);
     }
 }
