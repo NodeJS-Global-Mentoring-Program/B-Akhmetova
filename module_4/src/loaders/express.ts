@@ -3,11 +3,6 @@ import express from 'express';
 import usersRouter from '../controllers/user';
 import groupRouter from '../controllers/group';
 
-import { initUser } from '../db/initData/user';
-import { initGroup } from '../db/initData/group';
-
-import db from '../models';
-
 export default async (app: express.Application): Promise<express.Application> => {
     app.use(express.json());
     app.use('/users', usersRouter);
@@ -27,11 +22,6 @@ export default async (app: express.Application): Promise<express.Application> =>
             next(errObj);
         }
     );
-
-    await db.sequelize.sync({ force: true });
-    await db.sequelize.authenticate();
-    await initUser(db.User);
-    await initGroup(db.Group);
 
     return app;
 };

@@ -5,6 +5,8 @@ import { handleQuery } from '../utils/error';
 
 import db from '../models';
 
+import sequelize from '../db/connnection';
+
 
 export default class UserDAL {
     GetAllUsers(next: express.NextFunction): Promise<IUser[]|  void>  {
@@ -27,7 +29,19 @@ export default class UserDAL {
         return handleQuery(db.User.destroy({ where: { id } }), next);
     }
 
-    AddUsersToGroup(userId: string, groupId: string, transaction: any, next: express.NextFunction): Promise<any |void> {
-        return handleQuery(db.User.create({ userId, groupId }, transaction), next);
+    async AddUsersToGroup(userId: string, groupId: string, next: express.NextFunction): Promise<any |void> {
+        try {
+            await sequelize.transaction(async (t) => {
+                const relation =   await db.UserGroup.create({
+                    UserId: userId,
+                    GroupId: groupId
+                }, { transaction: t });
+
+                return relation;
+            });
+        } catch (error) {
+            console.log(error);
+            return next(error);
+        }
     }
 }

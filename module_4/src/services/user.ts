@@ -39,7 +39,7 @@ export default class UserService {
         return handleQuery(this.userDAL.DeleteUser(id, next), next);
     }
 
-    AddUsersToGroup(userId: string, groupId: string, transaction: any, next: express.NextFunction): Promise<any |void> {
-        return handleQuery(this.userDAL.AddUsersToGroup(userId, groupId, transaction, next), next);
+    AddUsersToGroup(userId: string, groupId: string, next: express.NextFunction): Promise<any |void> {
+        return handleQuery(this.userDAL.AddUsersToGroup(userId, groupId, next), next);
     }
 }

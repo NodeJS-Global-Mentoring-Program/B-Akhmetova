@@ -9,14 +9,10 @@ import UserDAL from '../data-access/UserDAL';
 import { getNumber, getString } from '../utils/parsing';
 import { handleQuery } from '../utils/error';
 
-import { getTransaction } from '../loaders/postgress';
-
 const routerUser = express.Router();
 
 const userDAL = new UserDAL();
 const userService = new UserService(userDAL);
-
-const transaction = getTransaction();
 
 routerUser.get('/auto-suggest', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const limit = getNumber(req.query.limit);
@@ -56,7 +52,7 @@ routerUser.post('/', middlewareValidatorCreate, async  (req: express.Request, re
 });
 
 routerUser.post('/addUsersToGroup', async  (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const result = await handleQuery(userService.AddUsersToGroup(req.body.userId, req.body.groupId, transaction, next), next);
+    const result = await handleQuery(userService.AddUsersToGroup(req.body.UserId, req.body.GroupId, next), next);
     res.send(result);
 });
 

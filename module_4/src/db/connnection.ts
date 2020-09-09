@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 
 import config from '../config';
 
-export const sequelize = new Sequelize({
+export default new Sequelize({
     username: config.dbUserName,
     password: config.dbPassword,
     host: config.dbHost,
@@ -10,7 +10,3 @@ export const sequelize = new Sequelize({
     database: config.dbDatabase,
     port: config.dbPort
 });
-
-export const getTransaction = async (): Promise<any> => {
-    return await sequelize.transaction();
-};
