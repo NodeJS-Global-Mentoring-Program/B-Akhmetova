@@ -3,10 +3,8 @@ import express from 'express';
 import { middlewareValidatorCreate, middlewareValidatorUpdate }  from '../validation/user/middlewares';
 
 import UserService from '../services/user';
-import UserGroupService from '../services/userGroup';
 
 import UserDAL from '../data-access/UserDAL';
-import UserGroupDAL from '../data-access/UserGroupDAL';
 
 import { getNumber, getString } from '../utils/parsing';
 import { handleQuery } from '../utils/error';
@@ -14,11 +12,9 @@ import { handleQuery } from '../utils/error';
 import { getTransaction } from '../loaders/postgress';
 
 const routerUser = express.Router();
-const userDAL = new UserDAL();
-const userGroupDAL = new UserGroupDAL();
 
+const userDAL = new UserDAL();
 const userService = new UserService(userDAL);
-const userGroupService = new UserGroupService(userGroupDAL);
 
 const transaction = getTransaction();
 
@@ -47,7 +43,6 @@ routerUser.put('/:id', middlewareValidatorUpdate, async (req: express.Request, r
 
 routerUser.delete('/:id', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const deletedNum = await handleQuery(userService.DeleteUser(req.params.id, next), next);
-    await handleQuery(userGroupService.DeleteRecordsWithUserId(req.params.id, next), next);
 
     if (deletedNum) {
         res.send(`User with id ${req.params.id} successfully deleted`);
