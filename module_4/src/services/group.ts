@@ -1,5 +1,5 @@
 import GroupDAL from '../data-access/GroupDAL';
-import { IGroup } from '../interfaces/group';
+import { Group } from '../types/group';
 import { createNewGroup } from '../helpers/group';
 
 export default class GroupService {
@@ -9,19 +9,19 @@ export default class GroupService {
         this.groupDAL = groupDAL;
     }
 
-    getAllGroups(): Promise<IGroup[] | void> {
+    getAllGroups(): Promise<Group[] | void> {
         return this.groupDAL.getAllGroups();
     }
 
-    getGroupById(id: string): Promise<IGroup| null | void> {
+    getGroupById(id: string): Promise<Group| null | void> {
         return this.groupDAL.getGroupById(id);
     }
 
-    createGroup(group: IGroup): Promise<IGroup |void> {
+    createGroup(group: Group): Promise<Group |void> {
         return this.groupDAL.createGroup(createNewGroup(group));
     }
 
-    updateGroup(group: IGroup, id: string): Promise<any> {
+    updateGroup(group: Group, id: string): Promise<any> {
         return this.groupDAL.updateGroup(group, id);
     }
 

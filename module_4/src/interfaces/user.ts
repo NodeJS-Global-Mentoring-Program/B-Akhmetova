@@ -1,10 +1,4 @@
 import {  Model } from 'sequelize';
+import { User } from '../types/user';
 
-export type IUser = {
-    id: string,
-    login: string,
-    password: string,
-    age: number
-}
-
-export interface UserInstance extends Model<IUser, IUser>, IUser {}
+export interface IUserInstance extends Model<User, User>, User {}

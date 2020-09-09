@@ -1,8 +1,8 @@
 import { v4 as uuid } from 'uuid';
 
-import { IGroup } from '../interfaces/group';
+import { Group } from '../types/group';
 
-export const createNewGroup = (fields: IGroup): IGroup => {
+export const createNewGroup = (fields: Group): Group => {
     return {
         id: fields.id || uuid(),
         name : fields.name,

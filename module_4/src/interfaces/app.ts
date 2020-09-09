@@ -1,17 +1,19 @@
 export interface IEnv {
-    appName: string | undefined,
+    appName: string,
 
-    appPort: number | undefined,
+    appPort: number,
 
-    dbDialect: string | undefined,
+    dbDialect: string,
 
-    dbHost: string | undefined,
+    dbHost: string,
 
-    dbPort: number | undefined,
+    dbPort: number,
 
-    dbDatabase: string | undefined,
+    dbDatabase: string,
 
-    dbUserName: string | undefined,
+    dbUserName: string,
 
-    dbPassword: string | undefined
+    dbPassword: string,
+
+    node_env: string
 }

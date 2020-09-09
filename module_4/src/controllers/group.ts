@@ -42,7 +42,7 @@ routerGroup.put('/:id', middlewareValidatorGroup, async (req: express.Request, r
 routerGroup.delete('/:id', async (req: express.Request, res: express.Response) => {
     try {
         const result = await groupService.deleteGroup(req.params.id);
-        res.send(result);
+        res.send(`Deleted with code ${result}`);
     } catch (error) {
         console.log('[error]', error);
     }

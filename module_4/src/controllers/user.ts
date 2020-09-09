@@ -56,7 +56,7 @@ routerUser.put('/:id', middlewareValidatorUpdate, async (req: express.Request, r
 routerUser.delete('/:id', async (req: express.Request, res: express.Response) => {
     try {
         const result = await userService.deleteUser(req.params.id);
-        res.send(result);
+        res.send(`Deleted with code ${result}`);
     } catch (error) {
         console.log('[error]', error);
     }

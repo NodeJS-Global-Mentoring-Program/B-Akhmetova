@@ -1,11 +1,11 @@
 import { v4 as uuid } from 'uuid';
 
-import { IUser } from '../interfaces/user';
+import { User } from '../types/user';
 
-export const getAutoSuggest = (loginSubstring: string, limitInput: number, users: any):IUser[] => {
+export const getAutoSuggest = (loginSubstring: string, limitInput: number, users: any):User[] => {
     const regex = RegExp(loginSubstring.toLowerCase());
     const countOfUsers = users.length;
-    let resultUsers: Array<IUser> = [];
+    let resultUsers: Array<User> = [];
     let limit = limitInput;
 
     if (limitInput === 0) {
@@ -25,7 +25,7 @@ export const getAutoSuggest = (loginSubstring: string, limitInput: number, users
     return resultUsers;
 };
 
-const compareLogins = (firstItem: IUser, secondItem: IUser) => {
+const compareLogins = (firstItem: User, secondItem: User) => {
     if (firstItem.login.toLowerCase() < secondItem.login.toLowerCase()) {
         return -1;
     }
@@ -35,7 +35,7 @@ const compareLogins = (firstItem: IUser, secondItem: IUser) => {
     return 0;
 };
 
-export const createNewUser = (fields: IUser): IUser => {
+export const createNewUser = (fields: User): User => {
     return {
         id: fields.id || uuid(),
         login : fields.login,

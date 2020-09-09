@@ -1,9 +1,4 @@
-import {  Model } from 'sequelize';
+import { Model } from 'sequelize';
+import { UserGroup } from '../types/userGroup';
 
-export  type IUserGroup = {
-    userId: string,
-    groupId: string
-};
-
-
-export interface UserGroupInstance extends Model<IUserGroup, IUserGroup>, IUserGroup {}
+export interface IUserGroupInstance extends Model<UserGroup, UserGroup>, UserGroup {}
