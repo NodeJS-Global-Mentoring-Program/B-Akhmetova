@@ -1,6 +1,6 @@
 import GroupDAL from '../data-access/GroupDAL';
 import { Group } from '../types/group';
-import { createNewGroup } from '../helpers/group';
+import { createNewGroup, mapPermision } from '../helpers/group';
 
 export default class GroupService {
     groupDAL:GroupDAL;
@@ -9,16 +9,31 @@ export default class GroupService {
         this.groupDAL = groupDAL;
     }
 
-    getAllGroups(): Promise<Group[]> {
-        return this.groupDAL.getAllGroups();
+    async getAllGroups(): Promise<Group[]> {
+        const groups = await this.groupDAL.getAllGroups();
+        return groups.map(group => ({
+            id: group.id,
+            name: group.name,
+            permissions: mapPermision(group.permissions)
+        }));
     }
 
-    getGroupById(id: string): Promise<Group| null> {
-        return this.groupDAL.getGroupById(id);
+    async getGroupById(id: string): Promise<Group|null> {
+        const group = await this.groupDAL.getGroupById(id);
+        return group && {
+            id: group.id,
+            name: group.name,
+            permissions: mapPermision(group.permissions)
+        };
     }
 
-    createGroup(group: Group): Promise<Group> {
-        return this.groupDAL.createGroup(createNewGroup(group));
+    async createGroup(group: Group): Promise<Group> {
+        const createdGroup = await this.groupDAL.createGroup(createNewGroup(group));
+        return createdGroup && {
+            id: createdGroup.id,
+            name: createdGroup.name,
+            permissions: mapPermision(createdGroup.permissions)
+        };
     }
 
     updateGroup(group: Group, id: string): Promise<Group[]|number> {

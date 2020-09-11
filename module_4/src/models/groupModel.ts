@@ -22,7 +22,7 @@ export const GroupModel = (sequelize: any): any => {
                 allowNull: false
             },
             permissions: {
-                type: DataTypes.STRING,
+                type: DataTypes.ARRAY(DataTypes.DECIMAL),
                 allowNull: true
             }
         },

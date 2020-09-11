@@ -39,25 +39,25 @@ export default async (db: any) => {
     const group1 = await db.Group.create({
         id: uuid(),
         name: 'group1',
-        permissions: 'READ'
+        permissions: [1, 2]
     });
 
     const group2 = await db.Group.create({
         id: uuid(),
         name: 'group2',
-        permissions: 'READ'
+        permissions: [3, 4]
     });
 
     await db.Group.create({
         id: uuid(),
         name: 'group3',
-        permissions: 'READ'
+        permissions: [2, 5]
     });
 
     await db.Group.create({
         id: uuid(),
         name: 'group4',
-        permissions: 'READ'
+        permissions: [1, 2, 3]
     });
 
     // creation relation
