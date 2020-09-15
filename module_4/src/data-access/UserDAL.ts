@@ -27,15 +27,20 @@ export default class UserDAL {
         return db.User.destroy({ where: { id } });
     }
 
-    async addUsersToGroup(userId: string, groupId: string): Promise<UserGroup|void> {
+    async addUsersToGroup(userIds: Array<string>, groupId: string): Promise<UserGroup|void> {
         try {
             await sequelize.transaction(async (t) => {
-                const relation =   await db.UserGroup.create({
-                    UserId: userId,
-                    GroupId: groupId
-                }, { transaction: t });
+                const promises: Array<any> = [];
+                userIds.forEach(userId => {
+                    const newPromise = db.UserGroup.create({
+                        UserId: userId,
+                        GroupId: groupId
+                    }, { transaction: t });
+                    promises.push(newPromise);
+                });
 
-                return relation;
+
+                return Promise.all(promises);
             });
         } catch (error) {
             console.log(error);

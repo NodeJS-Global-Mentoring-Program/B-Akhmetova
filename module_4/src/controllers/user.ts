@@ -73,7 +73,7 @@ routerUser.post('/', middlewareValidatorCreate, async  (req: express.Request, re
 
 routerUser.post('/addUsersToGroup', async  (req: express.Request, res: express.Response) => {
     try {
-        const result = await userService.addUsersToGroup(req.body.UserId, req.body.GroupId);
+        const result = await userService.addUsersToGroup(req.body.UserIds, req.body.GroupId);
         res.send(result);
     } catch (error) {
         console.log('[error]', error);

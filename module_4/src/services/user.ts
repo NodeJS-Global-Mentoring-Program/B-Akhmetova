@@ -37,7 +37,7 @@ export default class UserService {
         return this.userDAL.deleteUser(id);
     }
 
-    addUsersToGroup(userId: string, groupId: string): Promise<UserGroup|void> {
-        return this.userDAL.addUsersToGroup(userId, groupId);
+    addUsersToGroup(userIds: Array<string>, groupId: string): Promise<UserGroup|void> {
+        return this.userDAL.addUsersToGroup(userIds, groupId);
     }
 }
