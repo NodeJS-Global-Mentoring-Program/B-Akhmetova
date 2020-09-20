@@ -3,6 +3,8 @@ import express from 'express';
 import usersRouter from '../controllers/user';
 import groupRouter from '../controllers/group';
 
+import { uncaughtExeptionLogger, logger } from '../logger/uncaughtExLogger';
+
 export default async (app: express.Application): Promise<express.Application> => {
     app.use(express.json());
     app.use('/users', usersRouter);
@@ -22,6 +24,11 @@ export default async (app: express.Application): Promise<express.Application> =>
             next(errObj);
         }
     );
+    app.use(uncaughtExeptionLogger);
+    process.on('uncaughtException', (error) => {
+        logger.error(error.message, { error });
+        throw error;
+    });
 
     return app;
 };
