@@ -3,11 +3,8 @@ import express from 'express';
 import usersRouter from '../controllers/user';
 import groupRouter from '../controllers/group';
 
-import { customLogger } from '../utils/logger';
-
 export default async (app: express.Application): Promise<express.Application> => {
     app.use(express.json());
-    app.use(customLogger);
     app.use('/users', usersRouter);
     app.use('/groups', groupRouter);
     app.use(

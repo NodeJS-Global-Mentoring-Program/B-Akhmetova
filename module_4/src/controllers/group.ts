@@ -6,12 +6,14 @@ import GroupService from '../services/group';
 
 import GroupDAL from '../data-access/GroupDAL';
 
+import { customLogger } from '../utils/logger';
+
 const routerGroup = express.Router();
 
 const groupDAL = new GroupDAL();
 const groupService = new GroupService(groupDAL);
 
-routerGroup.get('/', async (req: express.Request, res: express.Response) => {
+routerGroup.get('/', customLogger, async (req: express.Request, res: express.Response) => {
     try {
         const result = await groupService.getAllGroups();
         res.send(result);
@@ -21,7 +23,7 @@ routerGroup.get('/', async (req: express.Request, res: express.Response) => {
 });
 
 
-routerGroup.get('/:id', async (req: express.Request, res: express.Response) => {
+routerGroup.get('/:id', customLogger, async (req: express.Request, res: express.Response) => {
     try {
         const result = await groupService.getGroupById(req.params.id);
         res.send(result);
@@ -30,7 +32,7 @@ routerGroup.get('/:id', async (req: express.Request, res: express.Response) => {
     }
 });
 
-routerGroup.put('/:id', middlewareValidatorGroup, async (req: express.Request, res: express.Response) => {
+routerGroup.put('/:id', customLogger, middlewareValidatorGroup, async (req: express.Request, res: express.Response) => {
     try {
         const result = await groupService.updateGroup(req.body, req.params.id);
         res.send(result);
@@ -39,7 +41,7 @@ routerGroup.put('/:id', middlewareValidatorGroup, async (req: express.Request, r
     }
 });
 
-routerGroup.delete('/:id', async (req: express.Request, res: express.Response) => {
+routerGroup.delete('/:id', customLogger, async (req: express.Request, res: express.Response) => {
     try {
         const result = await groupService.deleteGroup(req.params.id);
         res.send(`Deleted with code ${result}`);
@@ -48,7 +50,7 @@ routerGroup.delete('/:id', async (req: express.Request, res: express.Response) =
     }
 });
 
-routerGroup.post('/', middlewareValidatorGroup, async  (req: express.Request, res: express.Response) => {
+routerGroup.post('/', customLogger, middlewareValidatorGroup, async  (req: express.Request, res: express.Response) => {
     try {
         const result = await groupService.createGroup(req.body);
         res.send(result);
