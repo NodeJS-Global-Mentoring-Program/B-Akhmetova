@@ -1,4 +1,5 @@
 import express from 'express';
+import { transports } from 'winston';
 
 import usersRouter from '../controllers/user';
 import groupRouter from '../controllers/group';
@@ -25,9 +26,13 @@ export default async (app: express.Application): Promise<express.Application> =>
         }
     );
     app.use(uncaughtExeptionLogger);
-    process.on('uncaughtException', (error) => {
-        logger.error(error.message, { error });
-        throw error;
+    process.on('uncaughtException', () => {
+        logger.exceptions.handle(
+            new transports.File({ filename: 'exceptions.log' })
+        );
+    });
+    process.on('unhandledRejection', () => {
+        logger.add(new transports.File({ filename: 'rejections.log' }));
     });
 
     return app;

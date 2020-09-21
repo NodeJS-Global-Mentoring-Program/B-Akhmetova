@@ -31,7 +31,7 @@ routerUser.get('/', customLogger, async (req: express.Request, res: express.Resp
     try {
         const result = await userService.getAllUsers();
         // process.nextTick(() => {
-        //     throw new Error('whoops'); //TO CHECK PROCESS EXEPTIONS
+        //     throw new Error('whoops'); // TO CHECK PROCESS EXEPTIONS
         // });
         res.send(result);
     } catch (error) {
