@@ -13,51 +13,51 @@ const routerGroup = express.Router();
 const groupDAL = new GroupDAL();
 const groupService = new GroupService(groupDAL);
 
-routerGroup.get('/', customLogger, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerGroup.get('/', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await groupService.getAllGroups();
         res.send(result);
     } catch (error) {
         return  next(error);
     }
-});
+}, customLogger);
 
 
-routerGroup.get('/:id', customLogger, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerGroup.get('/:id', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await groupService.getGroupById(req.params.id);
         res.send(result);
     } catch (error) {
         return  next(error);
     }
-});
+}, customLogger);
 
-routerGroup.put('/:id', customLogger, middlewareValidatorGroup, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerGroup.put('/:id', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await groupService.updateGroup(req.body, req.params.id);
         res.send(result);
     } catch (error) {
         return  next(error);
     }
-});
+}, middlewareValidatorGroup, customLogger);
 
-routerGroup.delete('/:id', customLogger, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerGroup.delete('/:id', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await groupService.deleteGroup(req.params.id);
         res.send(`Deleted with code ${result}`);
     } catch (error) {
         return  next(error);
     }
-});
+}, customLogger);
 
-routerGroup.post('/', customLogger, middlewareValidatorGroup, async  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerGroup.post('/', async  (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await groupService.createGroup(req.body);
         res.send(result);
     } catch (error) {
         return  next(error);
     }
-});
+}, middlewareValidatorGroup, customLogger);
 
 
 export default routerGroup;
