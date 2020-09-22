@@ -6,7 +6,7 @@ import { UserGroup } from '../types/userGroup';
 import { getAutoSuggest, createNewUser } from '../helpers';
 
 export default class UserService {
-    userDAL:UserDAL;
+    private userDAL:UserDAL;
 
     constructor(userDAL: UserDAL) {
         this.userDAL = userDAL;
