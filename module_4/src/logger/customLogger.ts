@@ -8,11 +8,12 @@ export const customLogger = (
 ) => {
     const method = req.method;
     const args = ['GET', 'DELETE'].includes(method) ? req.params : req.body;
-    console.log(error);
+
     const loggerData = `
     Method: ${method}
     Arguments: ${JSON.stringify(args)}
-    Message: ${error.message} `;
+    Message: ${error.message}`;
+
     console.log(loggerData);
     next(error);
 };

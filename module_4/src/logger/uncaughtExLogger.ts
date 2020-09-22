@@ -1,25 +1,16 @@
 import express from 'express';
-import { createLogger, format, transports } from 'winston';
-
-export const logger = createLogger({
-    format: format.combine(
-        format.timestamp({
-            format: 'YYYY-MM-DD HH:mm:ss'
-        }),
-        format.json()
-    ),
-    transports: [
-        new transports.File({ filename: 'error.log', level: 'error' })
-    ]
-});
+import { logger } from './loggerWinston';
 
 export const uncaughtExeptionLogger = (
     errorObj: any,
     req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
+    res: express.Response
 ) => {
-    if (!(errorObj && errorObj.error && errorObj.error.isJoi)) {
+    if (errorObj && errorObj.error && errorObj.error.isJoi) {
+        res
+            .status(400)
+            .end(`Error. ${errorObj.error.toString().replace(/\. /g, '. \n')}.`);
+    } else {
         logger.log('error', 'Message: Internal Server Error.');
         res.sendStatus(500);
     }
