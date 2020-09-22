@@ -4,11 +4,11 @@ import { logger } from './loggerWinston';
 export const uncaughtExeptionLogger = (
     errorObj: any,
     req: express.Request,
-    res: express.Response
+    res: express.Response,
+    next: express.NextFunction
 ) => {
     if (errorObj && errorObj.error && errorObj.error.isJoi) {
-        res
-            .status(400)
+        res.status(400)
             .end(`Error. ${errorObj.error.toString().replace(/\. /g, '. \n')}.`);
     } else {
         logger.log('error', 'Message: Internal Server Error.');
