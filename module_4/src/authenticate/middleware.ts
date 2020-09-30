@@ -10,20 +10,18 @@ export const checkToken = (
 ): any => {
     const token = req.headers['x-access-token'];
 
-    console.log('[token]', token);
-
     if (!token) {
         return res
             .status(401)
-            .send({ Success: false, Message: 'Unauthorized error. Access token is absent.' });
+            .send({ Success: false, Message: 'Access token is absent.' });
     }
 
     if (typeof token === 'string') {
         jwt.verify(token, config.privateJwtKey, (err) => {
             if (err) {
                 return res
-                    .status(401)
-                    .send({ Success: false, Message: 'Failed to authenticate with token' });
+                    .status(403)
+                    .send({ Success: false, Message: 'Access token is Invalid' });
             }
             next();
         });
