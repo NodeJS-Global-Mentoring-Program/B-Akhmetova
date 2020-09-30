@@ -85,4 +85,15 @@ routerUser.post('/addUsersToGroup', async  (req: express.Request, res: express.R
     }
 }, customLogger);
 
+routerUser.post('/login', async  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const { login, password } = req.body;
+
+    try {
+        const result = await userService.loginUser(login, password);
+        res.send(result);
+    } catch (error) {
+        return  next(error);
+    }
+}, customLogger);
+
 export default routerUser;

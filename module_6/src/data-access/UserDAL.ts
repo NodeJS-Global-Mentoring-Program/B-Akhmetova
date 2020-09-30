@@ -8,7 +8,7 @@ import sequelize from '../db/connnection';
 
 export default class UserDAL {
     getAllUsers(): Promise<User[]>  {
-        return db.User.findAll({ attributes: ['id', 'login', 'age'] });
+        return db.User.findAll();
     }
 
     getUserById(id: string): Promise<User|null>  {
@@ -45,9 +45,5 @@ export default class UserDAL {
         } catch (error) {
             console.log(error);
         }
-    }
-
-    getUserByLogin(login:string): Promise<User|null>  {
-        return db.User.findOne({ where: { login } });
     }
 }
