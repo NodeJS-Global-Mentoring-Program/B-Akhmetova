@@ -10,12 +10,14 @@ import { getNumber, getString } from '../utils/parsing';
 
 import { customLogger } from '../logger/customLogger';
 
+import { checkToken } from '../authenticate/middleware';
+
 const routerUser = express.Router();
 
 const userDAL = new UserDAL();
 const userService = new UserService(userDAL);
 
-routerUser.get('/auto-suggest', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerUser.get('/auto-suggest', checkToken, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const limit = getNumber(req.query.limit);
     const loginSubstring = getString(req.query.loginSubstring);
 
@@ -27,7 +29,7 @@ routerUser.get('/auto-suggest', async (req: express.Request, res: express.Respon
     }
 }, customLogger);
 
-routerUser.get('/', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerUser.get('/', checkToken, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await userService.getAllUsers();
         // process.nextTick(() => {
@@ -40,7 +42,7 @@ routerUser.get('/', async (req: express.Request, res: express.Response, next: ex
 }, customLogger);
 
 
-routerUser.get('/:id', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerUser.get('/:id', checkToken, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await userService.getUserById(req.params.id);
         res.send(result);
@@ -49,16 +51,16 @@ routerUser.get('/:id', async (req: express.Request, res: express.Response, next:
     }
 }, customLogger);
 
-routerUser.put('/:id', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerUser.put('/:id', middlewareValidatorUpdate, checkToken, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await userService.updateUser(req.body, req.params.id);
         res.send(result);
     } catch (error) {
         return  next(error);
     }
-}, middlewareValidatorUpdate, customLogger);
+}, customLogger);
 
-routerUser.delete('/:id', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerUser.delete('/:id', checkToken, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await userService.deleteUser(req.params.id);
         res.send(`Deleted with code ${result}`);
@@ -67,16 +69,16 @@ routerUser.delete('/:id', async (req: express.Request, res: express.Response, ne
     }
 }, customLogger);
 
-routerUser.post('/', async  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerUser.post('/', middlewareValidatorCreate, async  (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await userService.createUser(req.body);
         res.send(result);
     } catch (error) {
         return  next(error);
     }
-}, middlewareValidatorCreate, customLogger);
+}, customLogger);
 
-routerUser.post('/addUsersToGroup', async  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerUser.post('/addUsersToGroup', checkToken, async  (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await userService.addUsersToGroup(req.body.UserIds, req.body.GroupId);
         res.send(result);

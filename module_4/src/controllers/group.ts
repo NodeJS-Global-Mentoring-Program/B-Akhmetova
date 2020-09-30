@@ -8,12 +8,14 @@ import GroupDAL from '../data-access/GroupDAL';
 
 import { customLogger } from '../logger/customLogger';
 
+import { checkToken } from '../authenticate/middleware';
+
 const routerGroup = express.Router();
 
 const groupDAL = new GroupDAL();
 const groupService = new GroupService(groupDAL);
 
-routerGroup.get('/', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerGroup.get('/', checkToken, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await groupService.getAllGroups();
         res.send(result);
@@ -23,7 +25,7 @@ routerGroup.get('/', async (req: express.Request, res: express.Response, next: e
 }, customLogger);
 
 
-routerGroup.get('/:id', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerGroup.get('/:id', checkToken, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await groupService.getGroupById(req.params.id);
         res.send(result);
@@ -32,16 +34,16 @@ routerGroup.get('/:id', async (req: express.Request, res: express.Response, next
     }
 }, customLogger);
 
-routerGroup.put('/:id', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerGroup.put('/:id', middlewareValidatorGroup, checkToken, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await groupService.updateGroup(req.body, req.params.id);
         res.send(result);
     } catch (error) {
         return  next(error);
     }
-}, middlewareValidatorGroup, customLogger);
+}, customLogger);
 
-routerGroup.delete('/:id', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerGroup.delete('/:id', checkToken, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await groupService.deleteGroup(req.params.id);
         res.send(`Deleted with code ${result}`);
@@ -50,14 +52,14 @@ routerGroup.delete('/:id', async (req: express.Request, res: express.Response, n
     }
 }, customLogger);
 
-routerGroup.post('/', async  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+routerGroup.post('/', middlewareValidatorGroup, async  (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const result = await groupService.createGroup(req.body);
         res.send(result);
     } catch (error) {
         return  next(error);
     }
-}, middlewareValidatorGroup, customLogger);
+}, customLogger);
 
 
 export default routerGroup;
