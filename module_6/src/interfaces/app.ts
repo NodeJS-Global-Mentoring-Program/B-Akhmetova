@@ -15,5 +15,9 @@ export interface IEnv {
 
     dbPassword: string,
 
-    node_env: string
+    node_env: string,
+
+    privateJwtKey: string,
+
+    expirationToken: number,
 }

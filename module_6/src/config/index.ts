@@ -23,7 +23,11 @@ const envVariables: IEnv = {
 
     dbPassword: process.env.DB_PASSWORD || '',
 
-    node_env: process.env.NODE_ENV || 'development'
+    node_env: process.env.NODE_ENV || 'development',
+
+    privateJwtKey: process.env.ACCESS_TOKEN_SECRET || '',
+
+    expirationToken: process.env.EXPIRATION_TOKEN ? parseInt(process.env.EXPIRATION_TOKEN, 10) : 60
 };
 
 export default envVariables;

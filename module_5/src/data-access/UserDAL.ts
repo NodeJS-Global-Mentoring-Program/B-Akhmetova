@@ -8,15 +8,22 @@ import sequelize from '../db/connnection';
 
 export default class UserDAL {
     getAllUsers(): Promise<User[]>  {
-        return db.User.findAll();
+        return db.User.findAll({ attributes: ['id', 'login', 'age'] });
     }
 
     getUserById(id: string): Promise<User|null>  {
-        return db.User.findByPk(id);
+        return db.User.findByPk(id, { attributes: ['id', 'login', 'age'] });
     }
 
     createUser(userDTO: User): Promise<User> {
-        return db.User.create(userDTO);
+        return db.User.create(userDTO).then((task: any) => {
+            const data = task.dataValues;
+            return {
+                id: data.id,
+                login: data.login,
+                age: data.age
+            };
+        });
     }
 
     updateUser(userData: User, id: string): Promise<User[]|number> {
@@ -45,5 +52,9 @@ export default class UserDAL {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    getUserByLogin(login:string): Promise<User|null>  {
+        return db.User.findOne({ where: { login } });
     }
 }

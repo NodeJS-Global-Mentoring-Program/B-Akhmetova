@@ -1,7 +1,5 @@
 import { v4 as uuid } from 'uuid';
 
-// import { DB } from '../types/db';
-
 export default async (db: any) => {
     // creation users
 
