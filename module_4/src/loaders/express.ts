@@ -1,5 +1,6 @@
 import express from 'express';
 import { transports } from 'winston';
+import cors from 'cors';
 
 import usersRouter from '../controllers/user';
 import groupRouter from '../controllers/group';
@@ -9,6 +10,7 @@ import { uncaughtExeptionLogger } from '../logger/uncaughtExLogger';
 
 export default async (app: express.Application): Promise<express.Application> => {
     app.use(express.json());
+    app.use(cors());
     app.use('/users', usersRouter);
     app.use('/groups', groupRouter);
     app.use(uncaughtExeptionLogger);
