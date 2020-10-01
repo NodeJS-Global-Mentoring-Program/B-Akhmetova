@@ -53,8 +53,4 @@ export default class UserDAL {
             console.log(error);
         }
     }
-
-    getUserByLogin(login:string): Promise<User|null>  {
-        return db.User.findOne({ where: { login } });
-    }
 }
