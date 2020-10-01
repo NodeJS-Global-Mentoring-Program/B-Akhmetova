@@ -3,7 +3,7 @@ import { Group } from '../types/group';
 import { createNewGroup, mapPermision } from '../helpers/group';
 
 export default class GroupService {
-    private groupDAL:GroupDAL;
+    groupDAL:GroupDAL;
 
     constructor(groupDAL: GroupDAL) {
         this.groupDAL = groupDAL;
