@@ -8,7 +8,8 @@ export const checkToken = (
     res: express.Response,
     next: express.NextFunction
 ): any => {
-    const token = req.headers['x-access-token'];
+    const bearearToken = req.headers.authorization;
+    const token = bearearToken ? bearearToken.split(' ')[1] : null;
 
     if (!token) {
         return res
