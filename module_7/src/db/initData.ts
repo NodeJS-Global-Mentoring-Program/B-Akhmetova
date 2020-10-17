@@ -24,13 +24,6 @@ export default async (db: any) => {
         age: 23
     });
 
-    await db.User.create({
-        id: uuid(),
-        login: 'user1',
-        password: 'password4',
-        age: 24
-    });
-
     // creation users
 
 
