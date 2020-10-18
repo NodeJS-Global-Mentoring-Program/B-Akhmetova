@@ -39,6 +39,7 @@ export const getAutoSuggestUsers = async (req: express.Request, res: express.Res
         const result = await userService.getAutoSuggestUsers(limit, loginSubstring);
         res.send(result);
         res.status(200);
+        return result;
     } catch (error) {
         return  next(error);
     }
