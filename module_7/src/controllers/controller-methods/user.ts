@@ -15,6 +15,7 @@ export const getAllUsers = async (req: express.Request, res: express.Response, n
         //     throw new Error('whoops'); // TO CHECK PROCESS EXEPTIONS
         // });
         res.send(result);
+        res.status(200);
     } catch (error) {
         return  next(error);
     }
@@ -24,6 +25,7 @@ export const getUserById = async (req: express.Request, res: express.Response, n
     try {
         const result = await userService.getUserById(req.params.id);
         res.send(result);
+        res.status(200);
     } catch (error) {
         return  next(error);
     }
@@ -36,6 +38,7 @@ export const getAutoSuggestUsers = async (req: express.Request, res: express.Res
     try {
         const result = await userService.getAutoSuggestUsers(limit, loginSubstring);
         res.send(result);
+        res.status(200);
     } catch (error) {
         return  next(error);
     }
@@ -45,6 +48,7 @@ export const createUser = async (req: express.Request, res: express.Response, ne
     try {
         const result = await userService.createUser(req.body);
         res.send(result);
+        res.status(200);
     } catch (error) {
         return  next(error);
     }
@@ -54,6 +58,7 @@ export const addUserToGroup = async (req: express.Request, res: express.Response
     try {
         const result = await userService.addUsersToGroup(req.body.UserIds, req.body.GroupId);
         res.send(result);
+        res.status(200);
     } catch (error) {
         return  next(error);
     }
@@ -66,6 +71,7 @@ export const loginUser = async (req: express.Request, res: express.Response, nex
     try {
         const result = await userService.loginUser(login, password);
         res.send(result);
+        res.status(200);
     } catch (error) {
         return  next(error);
     }
@@ -75,6 +81,7 @@ export const updateUser = async (req: express.Request, res: express.Response, ne
     try {
         const result = await userService.updateUser(req.body, req.params.id);
         res.send(result);
+        res.status(200);
     } catch (error) {
         return  next(error);
     }
@@ -84,6 +91,7 @@ export const deleteUser = async (req: express.Request, res: express.Response, ne
     try {
         const result = await userService.deleteUser(req.params.id);
         res.send(`Deleted with code ${result}`);
+        res.status(200);
     } catch (error) {
         return  next(error);
     }
