@@ -1,12 +1,10 @@
 import express from 'express';
 
 import { middlewareValidatorGroup } from '../validation/group/middlewares';
-
 import { customLogger } from '../logger/customLogger';
-
 import { checkToken } from '../authenticate/middleware';
-
-import { getAllGroups,
+import {
+    getAllGroups,
     getGroupById,
     createGroup,
     updateGroup,
@@ -15,7 +13,6 @@ import { getAllGroups,
 const routerGroup = express.Router();
 
 routerGroup.get('/', checkToken, getAllGroups, customLogger);
-
 
 routerGroup.get('/:id', checkToken, getGroupById, customLogger);
 

@@ -1,11 +1,8 @@
 import express from 'express';
 
 import { middlewareValidatorCreate, middlewareValidatorUpdate }  from '../validation/user/middlewares';
-
 import { customLogger } from '../logger/customLogger';
-
 import { checkToken } from '../authenticate/middleware';
-
 import {
     getAllUsers,
     getUserById,

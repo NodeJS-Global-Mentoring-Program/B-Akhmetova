@@ -5,3 +5,9 @@ export  type Group = {
     name: string,
     permissions: Array<Permission>
 };
+
+export  type mockGroup = {
+    id: string,
+    name: string,
+    permissions: Array<number>
+};
